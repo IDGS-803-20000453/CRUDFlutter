@@ -28,21 +28,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  //final dbHelper = DatabaseHelper();
-  final vm=view_model();
-  void _navigateToCreateScreen() async {
-    await vm.navigateToCreateScreen(context);
-  }
-  void _navigateToEditScreen(Map<String, dynamic> record) async {
-    await vm.navigateToEditScreen(context, record);
-  }
-
+  final vm = view_model();
   List<Map<String, dynamic>> _records = [];
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _nameControllerNew = TextEditingController();
-  TextEditingController _descriptionControllerNew = TextEditingController();
 
   @override
   void initState() {
@@ -71,6 +60,12 @@ class _MyHomePageState extends State<MyHomePage> {
     _descriptionController.text = record['description'];
   }
 
+  void _deleteRecord(int recordId) {
+    vm.deleteRecord(recordId);
+    _fetchRecords();
+    SnackbarUtils.showCompletedSnackbar(context, 'Registro eliminado correctamente');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,123 +76,94 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              InkWell(
-                onTap: () {
-                  SnackbarUtils.showInfoSnackbar(
-                    context,
-                    'Haga clic en algun boton para gestionar los registros',
-                  );
-                },
-                child: Container(
-                  color: Colors.grey[200],
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Nombre: ',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+          children: [
+            InkWell(
+              onTap: () {
+                SnackbarUtils.showInfoSnackbar(
+                  context,
+                  'Haga clic en algún botón para gestionar los registros',
+                );
+              },
+              child: Container(
+                color: Colors.grey[200],
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Nombre: ',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                      Expanded(
-                        child: TextField(
-                          controller: _nameController,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                            hintText: 'Seleccione un registro',
-                            hintStyle: TextStyle(fontSize: 18.0),
-                          ),
-                          style: TextStyle(fontSize: 18.0),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _nameController,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                          hintText: 'Seleccione un registro',
+                          hintStyle: TextStyle(fontSize: 18.0),
                         ),
+                        style: TextStyle(fontSize: 18.0),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-
-              SizedBox(height: 8.0),
-              InkWell(
-                onTap: () {
-                  SnackbarUtils.showInfoSnackbar(
-                    context,
-                    'Haga clic en algun boton para gestionar los registros',
-                  );
-                },
-                child: Container(
-                  color: Colors.grey[200],
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Descripción: ',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
+            ),
+            SizedBox(height: 8.0),
+            InkWell(
+              onTap: () {
+                SnackbarUtils.showInfoSnackbar(
+                  context,
+                  'Haga clic en algún botón para gestionar los registros',
+                );
+              },
+              child: Container(
+                color: Colors.grey[200],
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Text(
+                      'Descripción: ',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                      Expanded(
-                        child: TextField(
-                          controller: _descriptionController,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            isDense: true,
-                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                            hintText: 'Seleccione un registro',
-                            hintStyle: TextStyle(fontSize: 18.0),
-                          ),
-                          style: TextStyle(fontSize: 18.0),
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: _descriptionController,
+                        enabled: false,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                          hintText: 'Seleccione un registro',
+                          hintStyle: TextStyle(fontSize: 18.0),
                         ),
+                        style: TextStyle(fontSize: 18.0),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
-
-              SizedBox(height: 16.0),
-              Row(
-                children: [
-
-                ],
-              ),
-            ],
-          ),
-
-            /*TextField(
-              controller: _nameControllerNew,
-              decoration: InputDecoration(
-                labelText: 'Nuevo Nombre',
               ),
             ),
             SizedBox(height: 16.0),
-            TextField(
-              controller: _descriptionControllerNew,
-              decoration: InputDecoration(
-                labelText: 'Nueva Descripción',
-              ),
-            ),
-
-             */
-            SizedBox(height: 16),
             Row(
               children: [
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () async {
-                      if (_nameController.text.isEmpty ||
-                          _descriptionController.text.isEmpty) {
+                      if (_nameController.text.isEmpty || _descriptionController.text.isEmpty) {
                         SnackbarUtils.showErrorSnackbar(
                           context,
-                          'Por favor, Seleccione un registro',
+                          'Por favor, seleccione un registro',
                         );
                       } else if (_records.isNotEmpty) {
                         _navigateToEditScreen(_records.firstWhere(
@@ -212,51 +178,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           'No hay registros disponibles',
                         );
                       }
-
-                      /*
-                      Map<String, dynamic>? selectedRecord;
-
-                      if (_records.isNotEmpty) {
-                        Map<String, dynamic> selectedRecord =
-                        _records.firstWhere(
-                              (record) =>
-                          record['name'] == _nameController.text &&
-                              record['description'] == _descriptionController.text,
-                          orElse: () => {},
-                        );
-                        if (selectedRecord.isNotEmpty) {
-                          bool actualizacion = await vm.updateRecord(
-                              selectedRecord['id'],
-                              _nameControllerNew.text,
-                              _descriptionControllerNew.text);
-                          if (actualizacion) {
-                            vm.showSnackBar(
-                                'Registro actualizado correctamente', context);
-                            _fetchRecords(); // Actualizar la lista de registros
-                          } else {
-                            vm.showSnackBar('Error al actualizar el registro', context);
-                          }
-                        } else {
-                          vm.showSnackBar(
-                              'No se encontró el registro seleccionado', context);
-                        }
-                      } else {
-                        vm.showSnackBar('No hay registros disponibles', context);
-                      }
-
-                       */
                     },
                     child: Text('Actualizar'),
                   ),
-
                 ),
                 SizedBox(width: 16.0),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
                       if (_records.isNotEmpty) {
-                        Map<String, dynamic> selectedRecord =
-                        _records.firstWhere(
+                        Map<String, dynamic> selectedRecord = _records.firstWhere(
                               (record) =>
                           record['name'] == _nameController.text &&
                               record['description'] == _descriptionController.text,
@@ -264,24 +195,24 @@ class _MyHomePageState extends State<MyHomePage> {
                         );
                         if (selectedRecord.isNotEmpty) {
                           AlertUtils.showDeleteConfirmation(context, () {
-                            vm.deleteRecord(selectedRecord['id']);
-                            _fetchRecords();
-                            SnackbarUtils.showCompletedSnackbar(
-                                context, 'Registro eliminado correctamente');
+                            _deleteRecord(selectedRecord['id']);
                           });
                         } else {
                           SnackbarUtils.showErrorSnackbar(
-                              context, 'No se encontró el registro seleccionado');
+                            context,
+                            'No se encontró el registro seleccionado',
+                          );
                         }
                       } else {
                         SnackbarUtils.showErrorSnackbar(
-                            context, 'No hay registros disponibles');
+                          context,
+                          'No hay registros disponibles',
+                        );
                       }
                     },
                     child: Text('Eliminar'),
                   ),
                 ),
-
               ],
             ),
             SizedBox(height: 16.0),
@@ -298,14 +229,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: _records.length,
                 itemBuilder: (BuildContext context, int index) {
                   Map<String, dynamic> record = _records[index];
-                  return Card (
-                    child: ListTile(
-                      title: Text(record['name']),
-                      subtitle: Text(record['description']),
-                      onTap: () {
-                        _selectRecord(record);
-                      },
-                    ),);
+                  return Dismissible(
+                    key: Key(record['id'].toString()),
+                    direction: DismissDirection.startToEnd,
+                    background: Container(
+                      color: Colors.red,
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.white,
+                      ),
+                    ),
+                    confirmDismiss: (direction) async {
+                      return await AlertUtils.showDeleteConfirmationDismiss(
+                        context,
+                        '¿Estás seguro de que deseas eliminar este registro?',
+                        'Confirmar Eliminación',
+                      );
+                    },
+                    onDismissed: (direction) {
+                      _deleteRecord(record['id']);
+                    },
+                    child: Card(
+                      child: ListTile(
+                        title: Text(record['name']),
+                        subtitle: Text(record['description']),
+                        onTap: () {
+                          _selectRecord(record);
+                        },
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
@@ -316,7 +271,14 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _navigateToCreateScreen,
         child: Icon(Icons.add),
       ),
-
     );
+  }
+
+  void _navigateToCreateScreen() async {
+    await vm.navigateToCreateScreen(context);
+  }
+
+  void _navigateToEditScreen(Map<String, dynamic> record) async {
+    await vm.navigateToEditScreen(context, record);
   }
 }
