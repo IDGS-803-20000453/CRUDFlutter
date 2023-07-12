@@ -36,4 +36,26 @@ class SnackbarUtils {
       ),
     );
   }
+  static void showInfoSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.info,
+              color: Colors.black54,
+            ),
+            SizedBox(width: 8.0),
+            Text(
+              message,
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            )
+          ],
+        ),
+        backgroundColor: Colors.grey[200],
+      ),
+    );
+  }
 }

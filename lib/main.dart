@@ -84,67 +84,85 @@ class _MyHomePageState extends State<MyHomePage> {
           children: [Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                color: Colors.grey[200],
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Nombre: ',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: _nameController,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                          hintText: 'Ingrese el nombre',
-                          hintStyle: TextStyle(fontSize: 18.0),
+              InkWell(
+                onTap: () {
+                  SnackbarUtils.showInfoSnackbar(
+                    context,
+                    'Haga clic en algun boton para gestionar los registros',
+                  );
+                },
+                child: Container(
+                  color: Colors.grey[200],
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Nombre: ',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
-                        style: TextStyle(fontSize: 18.0),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: TextField(
+                          controller: _nameController,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                            hintText: 'Seleccione un registro',
+                            hintStyle: TextStyle(fontSize: 18.0),
+                          ),
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
               SizedBox(height: 8.0),
-              Container(
-                color: Colors.grey[200],
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      'Descripción: ',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    Expanded(
-                      child: TextField(
-                        controller: _descriptionController,
-                        enabled: false,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                          hintText: 'Ingrese la descripción',
-                          hintStyle: TextStyle(fontSize: 18.0),
+              InkWell(
+                onTap: () {
+                  SnackbarUtils.showInfoSnackbar(
+                    context,
+                    'Haga clic en algun boton para gestionar los registros',
+                  );
+                },
+                child: Container(
+                  color: Colors.grey[200],
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Descripción: ',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
-                        style: TextStyle(fontSize: 18.0),
                       ),
-                    ),
-                  ],
+                      Expanded(
+                        child: TextField(
+                          controller: _descriptionController,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                            hintText: 'Seleccione un registro',
+                            hintStyle: TextStyle(fontSize: 18.0),
+                          ),
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
+
               SizedBox(height: 16.0),
               Row(
                 children: [
